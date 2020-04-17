@@ -1,171 +1,91 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
-import { ApprovalsCollection } from '../../api/approvals.js';
 import { PackagesCollection } from '../../api/packages.js';
-
-function createApproval(id, date, name, description, conflicts) {
-  return { id, date, name, description, conflicts };
-}
+import { COMPLETE, PENDING_APPROVAL } from '../../ui/constants';
 
 function createPackage(
   id,
-  submitted,
   name,
   description,
-  approvedOn,
+  submittedBy,
+  submittedOn,
   approvedBy,
+  approvedOn,
+  conflicts,
   status
 ) {
-  return { id, submitted, name, description, approvedBy, approvedOn, status };
+  return {
+    id,
+    name,
+    description,
+    submittedOn,
+    submittedBy,
+    approvedOn,
+    approvedBy,
+    conflicts,
+    status,
+  };
 }
 Meteor.startup(() => {
-  if (ApprovalsCollection.find().count() === 0) {
-    [
-      createApproval(0, '16 Mar, 2019', 'PKG1', 'ABC Campaign', false),
-      createApproval(
-        1,
-        '16 Mar, 2019',
-        'OptOut_Webapp',
-        'New opt out webapp',
-        false
-      ),
-      createApproval(2, '16 Mar, 2019', 'PKG23', 'New folder structure', true),
-      createApproval(
-        3,
-        '16 Mar, 2019',
-        'New_Folders',
-        'Folder structure for ZYZ',
-        true
-      ),
-      createApproval(
-        4,
-        '15 Mar, 2019',
-        'PKG4',
-        'Personalization block for new deliveries',
-        false
-      ),
-      createApproval(5, '16 Mar, 2019', 'PKG1', 'ABC Campaign', false),
-      createApproval(
-        6,
-        '16 Mar, 2019',
-        'OptOut_Webapp',
-        'New opt out webapp',
-        false
-      ),
-      createApproval(7, '16 Mar, 2019', 'PKG23', 'New folder structure', true),
-      createApproval(
-        8,
-        '16 Mar, 2019',
-        'New_Folders',
-        'Folder structure for ZYZ',
-        false
-      ),
-      createApproval(
-        9,
-        '15 Mar, 2019',
-        'PKG4',
-        'Personalization block for new deliveries',
-        false
-      ),
-    ].forEach(function (approval) {
-      ApprovalsCollection.insert(approval);
-    });
-  }
-
   if (PackagesCollection.find().count() === 0) {
     [
       createPackage(
         0,
-        '16 Mar, 2019',
         'PKG1',
-        'ABC Campaign deployment',
+        'ABC Campaign',
+        'Admin',
         '16 Mar, 2019',
-        'Andy',
-        'Success'
+        'Admin',
+        '16 Mar, 2019',
+        false,
+        COMPLETE
       ),
       createPackage(
         1,
+        'PKG1',
+        'ABC Campaign',
+        'Admin',
         '16 Mar, 2019',
-        'OptOut_Webapp',
-        'New opt out webapp',
+        'Admin',
         '16 Mar, 2019',
-        'Andy',
-        'Success'
+        false,
+        COMPLETE
       ),
       createPackage(
         2,
+        'PKG1',
+        'ABC Campaign',
+        'Admin',
         '16 Mar, 2019',
-        'PKG23',
-        'New folder structure',
+        'Admin',
         '16 Mar, 2019',
-        'Andy',
-        'Success'
+        false,
+        COMPLETE
       ),
       createPackage(
         3,
-        '16 Mar, 2019',
         'PKG1',
-        'ABC Campaign deployment',
+        'ABC Campaign',
+        'Admin',
         '16 Mar, 2019',
-        'Bill',
-        'Success'
+        'Admin',
+        '16 Mar, 2019',
+        false,
+        PENDING_APPROVAL
       ),
       createPackage(
         4,
-        '16 Mar, 2019',
-        'OptOut_Webapp',
-        'New opt out webapp',
-        '16 Mar, 2019',
-        'Bill',
-        'Success'
-      ),
-      createPackage(
-        5,
-        '16 Mar, 2019',
-        'PKG23',
-        'New folder structure',
-        '16 Mar, 2019',
-        'Andy',
-        'Success'
-      ),
-      createPackage(
-        6,
-        '16 Mar, 2019',
         'PKG1',
-        'ABC Campaign deployment',
+        'ABC Campaign',
+        'Admin',
         '16 Mar, 2019',
-        'Andy',
-        'Success'
+        'Admin',
+        '16 Mar, 2019',
+        [{ type: 'Schema', name: 'WKF12' }],
+        PENDING_APPROVAL
       ),
-      createPackage(
-        7,
-        '16 Mar, 2019',
-        'OptOut_Webapp',
-        'New opt out webapp',
-        '16 Mar, 2019',
-        'Cory',
-        'Success'
-      ),
-      createPackage(
-        8,
-        '16 Mar, 2019',
-        'PKG23',
-        'New folder structure',
-        '16 Mar, 2019',
-        'Cory',
-        'Success'
-      ),
-      createPackage(
-        9,
-        '16 Mar, 2019',
-        'OptOut_Webapp',
-        'New opt out webapp',
-        '16 Mar, 2019',
-        'Andy',
-        'Success'
-      ),
-    ].forEach(function (pacakge) {
-      PackagesCollection.insert(pacakge);
+    ].forEach(function (package) {
+      PackagesCollection.insert(package);
     });
   }
   if (!Meteor.users.find().count()) {

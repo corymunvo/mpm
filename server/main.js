@@ -2,7 +2,6 @@ import '/imports/startup/server';
 import { Meteor } from 'meteor/meteor';
 
 import '../imports/api/groups.js';
-import '../imports/api/approvals.js';
 import '../imports/api/packages.js';
 import '../imports/api/settings.js';
 import '../imports/api/users.js';

@@ -16,7 +16,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { Sidebar, Copyright, PrivateRoute } from './components';
-// import { PrivateRouteContainer } from './containers';
 import { useHistory, Switch } from 'react-router-dom';
 
 import {
@@ -29,6 +28,7 @@ import {
   CreateUserPage,
   CreateGroupPage,
   EditGroupPage,
+  PackageViewPage,
 } from './pages';
 import { Auth } from './Auth';
 
@@ -217,6 +217,9 @@ const App = () => {
             </PrivateRoute>
             <PrivateRoute exact path="/package-approval">
               <PackageApprovalPage />
+            </PrivateRoute>
+            <PrivateRoute exact path="/view-package/:id">
+              <PackageViewPage />
             </PrivateRoute>
           </Switch>
           <Box pt={4}>

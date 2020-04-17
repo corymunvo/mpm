@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ApprovalTable = ({ summary, approvals, page, pages }) => {
+const ApprovalTable = ({ summary, packages, page, pages }) => {
   const classes = useStyles();
 
   return (
@@ -24,7 +24,7 @@ const ApprovalTable = ({ summary, approvals, page, pages }) => {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
+            <TableCell>Submitted On</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Description</TableCell>
             <TableCell>Conflicts?</TableCell>
@@ -32,16 +32,18 @@ const ApprovalTable = ({ summary, approvals, page, pages }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {approvals.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.description}</TableCell>
-              <TableCell>{row.conflicts ? 'Yes' : 'No'}</TableCell>
+          {packages.map((package) => (
+            <TableRow key={package.id}>
+              <TableCell>{package.submittedOn}</TableCell>
+              <TableCell>{package.name}</TableCell>
+              <TableCell>{package.description}</TableCell>
+              <TableCell>{package.conflicts ? 'Yes' : 'No'}</TableCell>
               <TableCell>
-                <a href="/">View</a>
-                {!row.conflicts && ' | '}
-                {!row.conflicts && <a href="#">Approve</a>}
+                <AnchoredLink to={`/view-package/${package._id}`}>
+                  View
+                </AnchoredLink>
+                {!package.conflicts && ' | '}
+                {!package.conflicts && <a href="#">Approve</a>}
               </TableCell>
             </TableRow>
           ))}
@@ -50,7 +52,7 @@ const ApprovalTable = ({ summary, approvals, page, pages }) => {
       <div className={classes.seeMore}>
         {summary ? (
           <AnchoredLink color="primary" to="/package-approval">
-            See more approvals
+            See more packages
           </AnchoredLink>
         ) : (
           <Pagination count={pages} page={page} />
@@ -63,7 +65,7 @@ const ApprovalTable = ({ summary, approvals, page, pages }) => {
 ApprovalTable.propTypes = {
   page: PropTypes.number,
   pages: PropTypes.number,
-  approvals: PropTypes.array,
+  packages: PropTypes.array,
   loading: PropTypes.bool,
   summary: PropTypes.bool,
 };

@@ -8,3 +8,4 @@ export * from './CreateUserPage';
 export * from './GroupsPage';
 export * from './CreateGroupPage';
 export * from './EditGroupPage';
+export * from './PackageViewPage';

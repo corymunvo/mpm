@@ -24,7 +24,7 @@ const PackageTable = ({ summary, packages, page, pages, loading }) => {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Submitted</TableCell>
+            <TableCell>Submitted On</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Description</TableCell>
             <TableCell>Approved On</TableCell>
@@ -35,7 +35,7 @@ const PackageTable = ({ summary, packages, page, pages, loading }) => {
         <TableBody>
           {packages.map((row) => (
             <TableRow key={row.id}>
-              <TableCell>{row.submitted}</TableCell>
+              <TableCell>{row.submittedOn}</TableCell>
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.description}</TableCell>
               <TableCell>{row.approvedOn}</TableCell>

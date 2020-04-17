@@ -16,3 +16,4 @@ export * from './UserTable';
 export * from './GroupTable';
 export * from './Loader';
 export * from './SelectGroupModal';
+export * from './PackageView';
