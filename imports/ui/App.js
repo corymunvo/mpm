@@ -29,6 +29,7 @@ import {
   CreateGroupPage,
   EditGroupPage,
   PackageViewPage,
+  PackageUploadPage,
 } from './pages';
 import { Auth } from './Auth';
 
@@ -217,6 +218,9 @@ const App = () => {
             </PrivateRoute>
             <PrivateRoute exact path="/package-approval">
               <PackageApprovalPage />
+            </PrivateRoute>
+            <PrivateRoute exact path="/package-upload">
+              <PackageUploadPage />
             </PrivateRoute>
             <PrivateRoute exact path="/view-package/:id">
               <PackageViewPage />

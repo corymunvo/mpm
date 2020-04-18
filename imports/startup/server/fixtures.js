@@ -81,7 +81,10 @@ Meteor.startup(() => {
         '16 Mar, 2019',
         'Admin',
         '16 Mar, 2019',
-        [{ type: 'Schema', name: 'WKF12' }],
+        [
+          { id: 1, type: 'Schema', name: 'nms:broadLogRcp' },
+          { id: 2, type: 'Campaign', name: 'WKF13' },
+        ],
         PENDING_APPROVAL
       ),
     ].forEach(function (package) {

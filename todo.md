@@ -5,11 +5,6 @@ Todo
 
 Today
 
-- Add is-admin flag
-- Make add gruop function
-- If creating a new group, return to user select screen
-- Verify that disabling profile is done correctly
-
 Backlog
 
 - Make pagination work

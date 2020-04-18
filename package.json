@@ -16,12 +16,14 @@
     "@material-ui/pickers": "^3.2.10",
     "bcrypt": "^4.0.1",
     "clsx": "^1.1.0",
+    "material-ui-dropzone": "^2.5.0",
     "meteor-node-stubs": "^1.0.0",
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
-    "react-router-dom": "^5.1.2"
+    "react-router-dom": "^5.1.2",
+    "simpl-schema": "^1.5.9"
   },
   "meteor": {
     "mainModule": {

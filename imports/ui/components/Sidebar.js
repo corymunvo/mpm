@@ -12,6 +12,7 @@ import { AnchoredListItem } from './AnchoredListItem';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PersonIcon from '@material-ui/icons/PersonAdd';
 import GroupIcon from '@material-ui/icons/Group';
+import PublishIcon from '@material-ui/icons/Publish';
 import { Auth } from '../Auth';
 
 const useStyles = makeStyles((theme) => ({
@@ -79,6 +80,16 @@ const Sidebar = () => {
             <AssignmentIcon />
           </ListItemIcon>
           <ListItemText primary="History" />
+        </AnchoredListItem>
+        <AnchoredListItem
+          button
+          className={classes.nested}
+          to="/package-upload"
+        >
+          <ListItemIcon>
+            <PublishIcon />
+          </ListItemIcon>
+          <ListItemText primary="Upload" />
         </AnchoredListItem>
       </List>
       {Auth.isAdmin() && (

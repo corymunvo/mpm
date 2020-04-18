@@ -13,7 +13,7 @@ const PackageView = ({ package, onApproval }) => {
         </Typography>
       </Grid>
       <Grid item xs={6}>
-        <Typography variant="body1" component="p">
+        <Typography variant="body1" component="div">
           <p>
             <strong>Id: </strong>
             {package.id}
@@ -47,11 +47,11 @@ const PackageView = ({ package, onApproval }) => {
       </Grid>
       <Grid item xs={6}>
         {package.conflicts
-          ? package.conflicts.map(({ type, name }) => (
-              <p>
-                <p>{package.type}</p>
-                <p>{package.name}</p>
-              </p>
+          ? package.conflicts.map(({ id, type, name }) => (
+              <div key={id}>
+                <p>{type}</p>
+                <p>{name}</p>
+              </div>
             ))
           : 'No conflicts'}
       </Grid>

@@ -8,6 +8,7 @@ const UsersContainer = withTracker(({ summary, handleClickOpen }) => {
   // const users = Meteor.users.find({}).fetch();
   // console.log(users
   const users = Meteor.users.find().fetch();
+  Meteor.subscribe('Meteor.users.list');
   const pages = Math.floor(users.length / PAGE_SIZE) + 1;
   const page = 1;
 

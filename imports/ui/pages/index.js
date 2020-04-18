@@ -9,3 +9,5 @@ export * from './GroupsPage';
 export * from './CreateGroupPage';
 export * from './EditGroupPage';
 export * from './PackageViewPage';
+export * from './PackageUploadPage';
+export * from './MyPackagesPage';

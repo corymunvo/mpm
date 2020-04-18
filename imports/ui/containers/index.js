@@ -5,3 +5,4 @@ export * from './ApprovalsContainer';
 export * from './WelcomeContainer';
 export * from './SelectGroupModalContainer';
 export * from './PrivateRouteContainer';
+export * from './PackageUploadContainer';
