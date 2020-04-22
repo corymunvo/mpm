@@ -1,24 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControl from '@material-ui/core/FormControl';
-import Switch from '@material-ui/core/Switch';
-import MomentUtils from '@date-io/moment';
-import Button from '@material-ui/core/Button';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
+import React from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControl from "@material-ui/core/FormControl";
+import Switch from "@material-ui/core/Switch";
+import MomentUtils from "@date-io/moment";
+import Button from "@material-ui/core/Button";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
-} from '@material-ui/pickers';
+} from "@material-ui/pickers";
+import { DEPLOYMENT_VALUES } from "../../constants";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -29,13 +30,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const GroupForm = ({ title, data = {}, onSubmit }) => {
+const GroupForm = ({ title, data, errors, onSubmit }) => {
   const classes = useStyles();
+  const showErrors = {};
+
+  errors.details &&
+    errors.details.forEach((fieldError) => {
+      let key = fieldError.name;
+      let prefix = key.substring(0, key.indexOf(".") + 1);
+      key = key.replace(prefix, "");
+
+      showErrors[key] = fieldError.message;
+    });
 
   const [state, setState] = React.useState(
     Object.assign(
       {
-        name: '',
+        name: "",
         rights: {
           schemas: true,
           forms: true,
@@ -51,10 +62,10 @@ const GroupForm = ({ title, data = {}, onSubmit }) => {
           deliveries: false,
         },
         autodeploy: false,
-        autodeployFreq: 'immediately',
-        autodeployTime: new Date('2014-08-18T21:11:54'),
+        autodeployFreq: "immediately",
+        autodeployTime: new Date("2014-08-18T21:11:54"),
       },
-      data
+      data || {}
     )
   );
 
@@ -90,6 +101,8 @@ const GroupForm = ({ title, data = {}, onSubmit }) => {
         <Grid item xs={12}>
           <TextField
             required
+            error={showErrors.name ? true : false}
+            helperText={showErrors.name}
             id="name"
             name="name"
             label="Group Name"
@@ -256,15 +269,11 @@ const GroupForm = ({ title, data = {}, onSubmit }) => {
                   value={state.autodeployFreq}
                   onChange={handleChange}
                 >
-                  <MenuItem value="immediately">Immediately</MenuItem>
-                  <MenuItem value="saturday">Saturday</MenuItem>
-                  <MenuItem value="sunday">Sunday</MenuItem>
-                  <MenuItem value="monday">Monday</MenuItem>
-                  <MenuItem value="tuesday">Tuesday</MenuItem>
-                  <MenuItem value="wednesday">Wednesday</MenuItem>
-                  <MenuItem value="thursday">Thursday</MenuItem>
-                  <MenuItem value="friday">Friday</MenuItem>
-                  <MenuItem value="eom">End of Month</MenuItem>
+                  {DEPLOYMENT_VALUES.map((value) => (
+                    <MenuItem value={value} key={value}>
+                      {value.charAt(0).toUpperCase() + value.substring(1)}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -277,7 +286,7 @@ const GroupForm = ({ title, data = {}, onSubmit }) => {
                   value={state.autodeployTime}
                   onChange={handleDateChange}
                   KeyboardButtonProps={{
-                    'aria-label': 'change time',
+                    "aria-label": "change time",
                   }}
                 />
               </FormControl>

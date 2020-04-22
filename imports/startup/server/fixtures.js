@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { PackagesCollection } from '../../api/packages.js';
-import { COMPLETE, PENDING_APPROVAL } from '../../ui/constants';
+import { COMPLETE, PENDING_APPROVAL } from '../../constants';
 
 function createPackage(
   id,
@@ -18,24 +18,33 @@ function createPackage(
     id,
     name,
     description,
-    submittedOn,
+    submittedOn: Date.parse(submittedOn),
     submittedBy,
-    approvedOn,
+    approvedOn: Date.parse(approvedOn),
     approvedBy,
     conflicts,
     status,
   };
 }
 Meteor.startup(() => {
-  if (PackagesCollection.find().count() === 0) {
+  if (!Meteor.users.find().count()) {
+    let userId = Accounts.createUser({
+      username: 'admin',
+      password: 'admin',
+      isAdmin: true,
+      profile: {
+        isAdmin: true,
+      },
+    });
+
     [
       createPackage(
         0,
         'PKG1',
         'ABC Campaign',
-        'Admin',
+        userId,
         '16 Mar, 2019',
-        'Admin',
+        userId,
         '16 Mar, 2019',
         false,
         COMPLETE
@@ -44,9 +53,9 @@ Meteor.startup(() => {
         1,
         'PKG1',
         'ABC Campaign',
-        'Admin',
+        userId,
         '16 Mar, 2019',
-        'Admin',
+        userId,
         '16 Mar, 2019',
         false,
         COMPLETE
@@ -55,9 +64,9 @@ Meteor.startup(() => {
         2,
         'PKG1',
         'ABC Campaign',
-        'Admin',
+        userId,
         '16 Mar, 2019',
-        'Admin',
+        userId,
         '16 Mar, 2019',
         false,
         COMPLETE
@@ -66,9 +75,9 @@ Meteor.startup(() => {
         3,
         'PKG1',
         'ABC Campaign',
-        'Admin',
+        userId,
         '16 Mar, 2019',
-        'Admin',
+        userId,
         '16 Mar, 2019',
         false,
         PENDING_APPROVAL
@@ -77,9 +86,9 @@ Meteor.startup(() => {
         4,
         'PKG1',
         'ABC Campaign',
-        'Admin',
+        userId,
         '16 Mar, 2019',
-        'Admin',
+        userId,
         '16 Mar, 2019',
         [
           { id: 1, type: 'Schema', name: 'nms:broadLogRcp' },
@@ -89,16 +98,6 @@ Meteor.startup(() => {
       ),
     ].forEach(function (package) {
       PackagesCollection.insert(package);
-    });
-  }
-  if (!Meteor.users.find().count()) {
-    Accounts.createUser({
-      username: 'admin',
-      password: 'admin',
-      isAdmin: true,
-      profile: {
-        isAdmin: true,
-      },
     });
   }
 });

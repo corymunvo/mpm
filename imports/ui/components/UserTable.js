@@ -1,15 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Meteor } from 'meteor/meteor';
-import Table from '@material-ui/core/Table';
-import Link from '@material-ui/core/Link';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Pagination from '@material-ui/lab/Pagination';
-import { makeStyles } from '@material-ui/core/styles';
-import { Title, AnchoredLink } from '.';
+import React from "react";
+import PropTypes from "prop-types";
+import { Meteor } from "meteor/meteor";
+import Table from "@material-ui/core/Table";
+import Link from "@material-ui/core/Link";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Pagination from "@material-ui/lab/Pagination";
+import { makeStyles } from "@material-ui/core/styles";
+import { Title, AnchoredLink } from ".";
 
 const useStyles = makeStyles((theme) => ({
   seeMore: {
@@ -17,16 +17,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UserTable = ({
-  summary,
-  users,
-  page,
-  pages,
-  isLoading,
-  handleClickOpen,
-}) => {
+const UserTable = ({ summary, users, page, pages, handleClickOpen }) => {
   const classes = useStyles();
-  console.log(users);
   return (
     <React.Fragment>
       <Title>Users</Title>
@@ -44,7 +36,7 @@ const UserTable = ({
               <TableCell>{user.username}</TableCell>
               <TableCell>
                 {user.profile && user.profile.isAdmin ? (
-                  'Admin'
+                  "Admin"
                 ) : user.profile && user.profile.group ? (
                   user.profile.group.name
                 ) : (
@@ -61,8 +53,8 @@ const UserTable = ({
               <TableCell>
                 <Link size="small" color="primary" component="button">
                   Edit
-                </Link>{' '}
-                |{' '}
+                </Link>{" "}
+                |{" "}
                 <Link size="small" color="primary" component="button">
                   Reset Password
                 </Link>

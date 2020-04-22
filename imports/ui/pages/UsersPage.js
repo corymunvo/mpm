@@ -1,18 +1,19 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import { UsersContainer, SelectGroupModalContainer } from '../containers';
-import { AnchoredButton } from '../components';
-import { useHistory } from 'react-router-dom';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import { UsersContainer, SelectGroupModalContainer } from "../containers";
+import { AnchoredButton } from "../components";
+import { useHistory } from "react-router-dom";
+import { setGroup } from "../../api/users.js";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
+    display: "flex",
+    overflow: "auto",
+    flexDirection: "column",
   },
   fixedHeight: {
     height: 240,
@@ -32,10 +33,17 @@ const UsersPage = () => {
 
   const handleClose = (group) => {
     setOpen(false);
-    if (group == 'createGroup') {
-      history.push('/create-group');
+    if (group == "createGroup") {
+      history.push("/create-group");
     } else {
-      Meteor.call('user.setGroup', selectedUserId, group);
+      setGroup.call(
+        { userId: selectedUserId, groupId: group._id },
+        (err, res) => {
+          if (err) {
+            console.log(error);
+          }
+        }
+      );
     }
   };
 

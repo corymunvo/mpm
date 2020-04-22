@@ -1,8 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import { Typography } from '@material-ui/core';
+import React from "react";
+import PropTypes from "prop-types";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import { Typography } from "@material-ui/core";
+import { Auth } from "../Auth";
+import moment from "moment";
 
 const PackageView = ({ package, onApproval }) => {
   return (
@@ -25,7 +27,7 @@ const PackageView = ({ package, onApproval }) => {
           </p>
           <p>
             <strong>SubmittedOn: </strong>
-            {package.submittedOn}
+            {moment(package.submittedOn).format("MM/DD/YYYY")}
           </p>
           <p>
             <strong>SubmittedBy: </strong>
@@ -33,7 +35,7 @@ const PackageView = ({ package, onApproval }) => {
           </p>
           <p>
             <strong>ApprovedOn: </strong>
-            {package.approvedOn}
+            {moment(package.approvedOn).format("MM/DD/YYYY")}
           </p>
           <p>
             <strong>ApprovedBy: </strong>
@@ -47,23 +49,25 @@ const PackageView = ({ package, onApproval }) => {
       </Grid>
       <Grid item xs={6}>
         {package.conflicts
-          ? package.conflicts.map(({ id, type, name }) => (
-              <div key={id}>
+          ? package.conflicts.map(({ type, name }) => (
+              <div key={name}>
                 <p>{type}</p>
                 <p>{name}</p>
               </div>
             ))
-          : 'No conflicts'}
+          : "No conflicts"}
       </Grid>
-      <Button
-        type="submit"
-        fullWidth
-        variant="contained"
-        color="primary"
-        onClick={() => onApproval()}
-      >
-        Approve
-      </Button>
+      {Auth.isAdmin() && (
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          onClick={() => onApproval()}
+        >
+          Approve
+        </Button>
+      )}
     </Grid>
   );
 };

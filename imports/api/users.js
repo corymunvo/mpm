@@ -1,47 +1,62 @@
-import { Meteor } from 'meteor/meteor';
-import { check } from 'meteor/check';
-import { Auth } from '../ui/Auth';
+import { Meteor } from "meteor/meteor";
+import { ValidatedMethod } from "meteor/mdg:validated-method";
+import SimpleSchema from "simpl-schema";
+import { Auth } from "../ui/Auth";
 
 if (Meteor.isServer) {
-  Meteor.publish('Meteor.users.list', function () {
-    // Validate the arguments to be what we expect
-    return Meteor.users.find();
+  Meteor.publish("users", function () {
+    if (Auth.isAdmin()) {
+      return Meteor.users.find();
+    }
+    // const query = Meteor.users.createQuery("getUsers", {
+    //   username: 1,
+    //   groups: {
+    //     name: 1,
+    //   },
+    // });
+    // const users = query.fetch();
   });
 }
 
-Meteor.methods({
-  'user.setGroup'(userId, group) {
-    check(userId, String);
-    check(group, Object);
-
+export const createUser = new ValidatedMethod({
+  name: "users.createUser",
+  validate: new SimpleSchema({
+    username: { type: String, min: 3, max: 255 },
+    password: { type: String, min: 3, max: 255 },
+    isAdmin: { type: Boolean, defaultValue: false },
+  }).validator(),
+  run({ username, password, isAdmin }) {
     if (!Auth.isAdmin()) {
-      throw new Meteor.Error('not-authorized');
-    }
-
-    Meteor.users.update(userId, {
-      $set: {
-        profile: {
-          group: group,
-        },
-      },
-    });
-  },
-
-  'user.createUser'(username, password, isAdmin) {
-    check(username, String);
-    check(password, String);
-    check(isAdmin, Boolean);
-
-    if (!Auth.isAdmin()) {
-      throw new Meteor.Error('not-authorized');
+      throw new Meteor.Error("not-authorized");
     }
 
     userId = Accounts.createUser({ username: username, password: password });
     Meteor.users.update(userId, {
       $set: {
+        isAdmin: isAdmin,
         profile: {
           isAdmin: isAdmin,
         },
+      },
+    });
+  },
+});
+
+export const setGroup = new ValidatedMethod({
+  name: "users.setGroup",
+  validate: new SimpleSchema({
+    userId: { type: String },
+    groupId: { type: String },
+  }).validator(),
+  run({ userId, groupId }) {
+    if (!Auth.isAdmin()) {
+      throw new Meteor.Error("not-authorized");
+    }
+
+    console.log("group set");
+    Meteor.users.update(userId, {
+      $set: {
+        groupId: groupId,
       },
     });
   },

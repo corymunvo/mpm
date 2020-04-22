@@ -1,7 +1,7 @@
 import { GroupsCollection } from '../../api/groups.js';
 import { withTracker } from 'meteor/react-meteor-data';
 import { SelectGroupModal } from '../components';
-import { PAGE_SIZE } from '../constants';
+import { PAGE_SIZE } from '../../constants';
 import { WithLoading } from '../hocs';
 
 const SelectGroupModalContainer = withTracker(

@@ -1,21 +1,29 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import React from "react";
+import PropTypes from "prop-types";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
-const UserForm = ({ title, data = {}, onSubmit }) => {
+const UserForm = ({ title, data, errors, onSubmit }) => {
+  const showErrors = {};
+
+  errors.details &&
+    errors.details.forEach((fieldError) => {
+      console.log(fieldError);
+      showErrors[fieldError.name] = fieldError.message;
+    });
+
   const [state, setState] = React.useState(
     Object.assign(
       {
-        username: '',
-        password: '',
+        username: "",
+        password: "",
         isAdmin: false,
       },
-      data
+      data || {}
     )
   );
 
@@ -37,6 +45,8 @@ const UserForm = ({ title, data = {}, onSubmit }) => {
           <TextField
             required
             fullWidth
+            error={showErrors.username ? true : false}
+            helperText={showErrors.username}
             id="username"
             label="Username"
             name="username"
@@ -48,6 +58,8 @@ const UserForm = ({ title, data = {}, onSubmit }) => {
           <TextField
             required
             fullWidth
+            error={showErrors.password ? true : false}
+            helperText={showErrors.password}
             name="password"
             label="Password"
             type="password"
